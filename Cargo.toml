@@ -1,0 +1,11 @@
+[package]
+name = "echecs"
+version = "0.1.0"
+edition = "2024"
+description = "A chess TUI app built in Rust."
+authors = ["Vincent Matthew"]
+license = "MIT"
+repository = "https://github.com/viincnt/Echecs"
+readme = "README.md"
+
+[dependencies]
