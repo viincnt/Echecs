@@ -6,7 +6,7 @@ use ratatui::{
     Frame,
     layout::{ Alignment, Constraint, Direction, Layout, Rect },
     text::{ Line, Span },
-    widgets::{ Block, Paragraph },
+    widgets::{ Block, Borders, Paragraph },
 };
 
 // Constrains the drawable area to 75% of the terminal width, centered.
@@ -47,18 +47,23 @@ pub fn draw_buttons(frame: &mut Frame, area: Rect, items: &[(&str, &str)], curso
     }
 }
 
-// Renders a centered help bar with alternating key / description pairs.
-// Keys are styled with the accent color; descriptions are muted.
-pub fn draw_help(frame: &mut Frame, area: Rect, items: &[(&str, &str)]) {
-    let spans: Vec<Span> = items
-        .iter()
-        .flat_map(|(key, desc)| {
-            [
-                Span::styled(*key, themes::accent()),
-                Span::styled(format!("  {}   ", desc), themes::muted()),
-            ]
-        })
-        .collect();
-
-    frame.render_widget(Paragraph::new(Line::from(spans)).alignment(Alignment::Center), area);
+// Renders a centered help bar with key/description pairs separated by spaces.
+// Keys are wrapped in brackets with accent color; descriptions are muted.
+// A top border separates the bar from content above.
+pub fn draw_help(frame: &mut Frame, area: Rect, bindings: &[(&str, &str)]) {
+    let mut spans: Vec<Span> = Vec::new();
+    for (i, (key, desc)) in bindings.iter().enumerate() {
+        if i > 0 {
+            spans.push(Span::styled("    ", themes::muted()));
+        }
+        spans.push(Span::styled(format!("[{key}]"), themes::accent()));
+        spans.push(Span::raw(" "));
+        spans.push(Span::styled(*desc, themes::muted()));
+    }
+    frame.render_widget(
+        Paragraph::new(Line::from(spans))
+            .alignment(Alignment::Center)
+            .block(Block::default().borders(Borders::TOP).border_style(themes::subtle())),
+        area,
+    );
 }

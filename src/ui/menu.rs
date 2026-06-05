@@ -3,7 +3,7 @@ use ratatui::{
     Frame,
     layout::{ Alignment, Constraint, Direction, Layout },
     text::Line,
-    widgets::{ Block, Borders, Paragraph },
+    widgets::Paragraph,
 };
 use crate::app::App;
 use super::themes;
@@ -65,18 +65,13 @@ pub fn draw(frame: &mut Frame, app: &App) {
         );
     }
 
-    frame.render_widget(
-        Block::new().borders(Borders::TOP).border_style(themes::subtle()),
-        outer[7]
-    );
-
     super::draw_help(
         frame,
         outer[8],
         &[
-            ("[← →]", "navigate"),
-            ("[↵]", "select"),
-            ("[q]", "quit"),
+            ("← →", "navigate"),
+            ("↵", "select"),
+            ("q", "quit"),
         ]
     );
 }
