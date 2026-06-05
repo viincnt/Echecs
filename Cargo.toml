@@ -9,3 +9,6 @@ repository = "https://github.com/viincnt/Echecs"
 readme = "README.md"
 
 [dependencies]
+ratatui = "0.29"
+crossterm = "0.28"
+tui-big-text = "0.7"
